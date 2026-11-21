@@ -1,4 +1,0 @@
-repository "Haven Delhi/Haven Delhi@13469954659307@cloud"
-  path "/"
-    br "/main"
-    co "/main"
