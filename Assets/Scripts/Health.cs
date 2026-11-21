@@ -65,7 +65,7 @@ public class Health : MonoBehaviour
 
    private void PlayParticlesAndAudio(AudioSource source, AudioClip audioClip, ParticleSystem particles)
    {
-      if(audioClip == null || particles == null) return;
+      if(audioClip == null && particles == null) return;
       
       source.PlayOneShot(audioClip);
       particles.Play();
