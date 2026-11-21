@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
 public class Health : MonoBehaviour
@@ -28,7 +29,7 @@ public class Health : MonoBehaviour
    {
       if (_isDead) return;
 
-      PlayParticlesAndAudio(_source, _healSound, _healParticles);
+      //PlayParticlesAndAudio(_source, _healSound, _healParticles);
       
       if (_currentHealth + HealAmount >= _maxHealth)
          _currentHealth = _maxHealth;
@@ -47,20 +48,23 @@ public class Health : MonoBehaviour
       else
       {
          _currentHealth -= Damage;
-         PlayParticlesAndAudio(_source, _damageSound, _damageParticles);
+         //PlayParticlesAndAudio(_source, _damageSound, _damageParticles);
       }
    }
 
    private void Death()
    {
       _isDead = true;
-      PlayParticlesAndAudio(_source, _deathSound, _deathParticles);
+      //PlayParticlesAndAudio(_source, _deathSound, _deathParticles);
+      Destroy(this.gameObject);
+      if (this.gameObject.CompareTag("Player"))
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
    }
 
    private void Update()
    {
-      if (_isDead && !_source.isPlaying && !_deathParticles.IsAlive(true))
-         Destroy(gameObject);
+      //if (_isDead && !_source.isPlaying && !_deathParticles.IsAlive(true))
+      //Destroy(gameObject);
    }
 
    private void PlayParticlesAndAudio(AudioSource source, AudioClip audioClip, ParticleSystem particles)
