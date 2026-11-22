@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MoveForward : MonoBehaviour
@@ -8,10 +9,18 @@ public class MoveForward : MonoBehaviour
 
     private float _speed;
     private float _nextBounceTime;
+    public bool _playerTouched;
+    private SpriteRenderer _renderer;
+    [SerializeField] private Color _touchedColour;
 
     public void Initialization(float speed)
     {
         _speed = speed;
+    }
+
+    private void Start()
+    {
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -28,6 +37,13 @@ public class MoveForward : MonoBehaviour
         RaycastHit2D hit = Physics2D.CircleCast(
             transform.position, _radius, direction, distance, _bounceLayers);
 
+        if (hit.collider != null && hit.collider.CompareTag("Shield"))
+        {
+            CameraShake.Shake(5); //adjust accordingly
+            _playerTouched = true;
+            ChangeColour();
+        }
+
         if (hit.collider == null || Vector2.Dot(direction, hit.normal) >= 0f)
         {
             transform.position += (Vector3)(direction * distance);
@@ -38,5 +54,10 @@ public class MoveForward : MonoBehaviour
         transform.right = Vector2.Reflect(direction, hit.normal);
 
         _nextBounceTime = Time.time + _bounceCooldown;
+    }
+
+    private void ChangeColour()
+    {
+        _renderer.color = _touchedColour;
     }
 }

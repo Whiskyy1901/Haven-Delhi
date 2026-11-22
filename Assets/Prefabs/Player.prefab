@@ -88,8 +88,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 0.6549538, b: 0.3238992, a: 1}
+  m_Sprite: {fileID: -394591827, guid: 54e53f8109e202640b0276e27dc90889, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -135,8 +135,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.21133333}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.37, y: 4.53}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -185,9 +185,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   _moveSpeed: 10
   _moveSpeedMultiplier: 1
-  dashSpeed: 18
-  dashDuration: 0.15
-  dashCooldown: 0.6
+  _dashSpeed: 36
+  _dashDuration: 0.15
+  _dashCooldown: 0.6
+  _fovPop: 0.05
+  _shake: 2
 --- !u!96 &8874798109843247291
 TrailRenderer:
   serializedVersion: 4
@@ -421,6 +423,8 @@ MonoBehaviour:
   _damageSound: {fileID: 0}
   _healParticles: {fileID: 0}
   _healSound: {fileID: 0}
+  _hitPulse: 2
+  _bar: {fileID: 0}
   _deathParticles: {fileID: 0}
   _deathSound: {fileID: 0}
 --- !u!1 &4180563930601751184
@@ -435,9 +439,9 @@ GameObject:
   - component: {fileID: 5427896499453237347}
   - component: {fileID: 8721462910255598147}
   - component: {fileID: 3069701997737962627}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -532,6 +536,13 @@ MonoBehaviour:
   _orbitCenter: {fileID: 7274197473635546095}
   _orbitRadius: 1
   _flipWhenAimingLeft: 1
+  _maxStamina: 3
+  _regenRate: 1
+  _collider2D: {fileID: 0}
+  _spriteRenderer: {fileID: 0}
+  _staminaSegments: []
+  _normalColor: {r: 1, g: 1, b: 1, a: 1}
+  _exhaustedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!61 &3069701997737962627
 BoxCollider2D:
   m_ObjectHideFlags: 0

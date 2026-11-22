@@ -27,7 +27,7 @@ public class RangedEnemy : Enemy
     [SerializeField] private float _burstInterval = 0.1f;
 
     [Header("Sound")]
-    private AudioSource _source;
+    private AudioSource _audioSource;
     [SerializeField] private AudioClip _hitSound;
     [SerializeField] private AudioClip _shootSound;
 
@@ -92,7 +92,6 @@ public class RangedEnemy : Enemy
     private IEnumerator FireBurst()
     {
         _isBursting = true;
-
         for (int i = 0; i < _burstCount; i++)
         {
             if (_player == null) break;
@@ -112,14 +111,15 @@ public class RangedEnemy : Enemy
                       + Random.Range(-_spread * 0.5f, _spread * 0.5f);
 
         GameObject bullet = Instantiate(_bullet, origin, Quaternion.Euler(0f, 0f, angle));
-        PlayParticlesAndAudio(_source, _shootSound, _shootParticle);
+        CameraShake.Shake((float) _damage/10);
+        PlayParticlesAndAudio(_audioSource, _shootSound, _shootParticle);
         if (bullet.TryGetComponent<Damage>(out var damage))
             damage.Initialization(_damage);
 
         if (bullet.TryGetComponent<MoveForward>(out var move))
             move.Initialization(_bulletSpeed);
     }
-
+    
     private void PlayParticlesAndAudio(AudioSource source, AudioClip audioClip, ParticleSystem particles)
     {
         if (audioClip == null && particles == null) return;

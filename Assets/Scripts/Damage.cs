@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Damage : MonoBehaviour
 {
-    [SerializeField] private LayerMask _toDamage;
-    
+    [SerializeField] private string _preTouchTag = "Player";
+    [SerializeField] private string _postTouchTag = "Enemy";
+
     [SerializeField] private bool _destroyOnNonTargets = true;
 
-    // SFX
     [Header("Sounds")]
     [SerializeField] AudioClip _impactAudio;
     [SerializeField] ParticleSystem _impactParticle;
 
     private AudioSource _source;
+    private MoveForward _move;
 
     private int _damage;
     private float _speed;
@@ -25,6 +26,7 @@ public class Damage : MonoBehaviour
     private void Start()
     {
         _source = GetComponent<AudioSource>();
+        _move = GetComponent<MoveForward>();
     }
 
     public void Initialization(int damage, int pierceCount = 0, float bulletSpeed = 0f)
@@ -33,12 +35,13 @@ public class Damage : MonoBehaviour
         _pierceLeft = Mathf.Max(0, pierceCount);
         _speed = bulletSpeed;
     }
-    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (_finished) return;
-        bool isTarget = (_toDamage.value & (1 << other.gameObject.layer)) != 0;
+
+        string targetTag = (_move != null && _move._playerTouched) ? _postTouchTag : _preTouchTag;
+        bool isTarget = other.CompareTag(targetTag);
 
         if (!isTarget && !_destroyOnNonTargets) return;
 
@@ -70,11 +73,11 @@ public class Damage : MonoBehaviour
 
         Destroy(gameObject);
     }
-    
+
     private void PlayParticlesAndAudio(AudioSource source, AudioClip audioClip, ParticleSystem particles)
     {
-        if(audioClip == null && particles == null) return;
-      
+        if (audioClip == null && particles == null) return;
+
         source.PlayOneShot(audioClip);
         particles.Play();
     }

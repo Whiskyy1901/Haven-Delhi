@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7604077670096781507}
   m_Layer: 6
   m_Name: Ranged Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,9 +87,9 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.33018857, b: 0.33018857, a: 1}
-  m_FlipX: 0
+  m_Sprite: {fileID: -3187373829136339038, guid: 733a1b2a1f90a634989211970a1582e2, type: 3}
+  m_Color: {r: 0.9685534, g: 0.9685534, b: 0.9685534, a: 1}
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -142,12 +142,12 @@ MonoBehaviour:
   timeBetweenAttacks: 1
   hitSFX: {fileID: 0}
   _shootRange: 7
-  _fireInterval: 1
+  _fireInterval: 2
   _firePos: {fileID: 176973811127047958}
   _preferredDistance: 5.5
   _distanceTolerance: 2
-  _strafeAmount: 0.8
-  _strafeSwitchTime: {x: 1, y: 2.5}
+  _strafeAmount: 0.1
+  _strafeSwitchTime: {x: 2.2, y: 2.5}
   _acceleration: 20
   _bullet: {fileID: 7712390000475135783, guid: 56e6c97642c32e64a802929c15c51be2, type: 3}
   _bulletSpeed: 8
@@ -307,6 +307,8 @@ MonoBehaviour:
   _damageSound: {fileID: 0}
   _healParticles: {fileID: 0}
   _healSound: {fileID: 0}
+  _hitPulse: 2
+  _bar: {fileID: 0}
   _deathParticles: {fileID: 0}
   _deathSound: {fileID: 0}
 --- !u!1 &6984129203856936683

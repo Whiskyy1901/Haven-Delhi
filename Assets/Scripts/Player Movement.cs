@@ -14,9 +14,11 @@ public class PlayerMovement : MonoBehaviour
     private float _currentSpeed;
     
     [Header("Dash")]
-    [SerializeField] private float dashSpeed = 18f;
-    [SerializeField] private float dashDuration = 0.15f;
-    [SerializeField] private float dashCooldown = 0.6f;
+    [SerializeField] private float _dashSpeed = 18f;
+    [SerializeField] private float _dashDuration = 0.15f;
+    [SerializeField] private float _dashCooldown = 0.6f;
+    [SerializeField] private float _fovPop = 10f;
+    [SerializeField] private float _shake = 2f;
     
     private Vector2 _lastDirection = Vector2.down;
     private bool _dashQueued;
@@ -74,14 +76,16 @@ public class PlayerMovement : MonoBehaviour
     private void StartDash(Vector2 direction)
     {
         _isDashing = true;
-        _dashTimer = dashDuration;
+        CameraShake.ZoomPop(_fovPop);
+        CameraShake.Shake(_shake);
+        _dashTimer = _dashDuration;
         _dashDirection = direction;
-        _cooldownTimer = dashCooldown;
+        _cooldownTimer = _dashCooldown;
     }
     
     private void HandleDash()
     {
-        _rb.linearVelocity = _dashDirection * dashSpeed;
+        _rb.linearVelocity = _dashDirection * _dashSpeed;
         _dashTimer -= Time.fixedDeltaTime;
 
         if (_dashTimer <= 0f)

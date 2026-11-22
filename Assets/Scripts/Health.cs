@@ -14,6 +14,9 @@ public class Health : MonoBehaviour
    [SerializeField] private AudioClip _damageSound;
    [SerializeField] private ParticleSystem _healParticles;
    [SerializeField] private AudioClip _healSound;
+
+   [SerializeField] private float _hitPulse = 2f;
+   [SerializeField] private HealthBar _bar;
    
    [Header("Death Sequence")]
    [SerializeField] private ParticleSystem _deathParticles;
@@ -23,18 +26,8 @@ public class Health : MonoBehaviour
    {
       _currentHealth = _maxHealth;
       _source = GetComponent<AudioSource>();
-   }
-
-   public void Heal(int HealAmount)
-   {
-      if (_isDead) return;
-
-      //PlayParticlesAndAudio(_source, _healSound, _healParticles);
-      
-      if (_currentHealth + HealAmount >= _maxHealth)
-         _currentHealth = _maxHealth;
-      else
-         _currentHealth += HealAmount;
+      if(gameObject.CompareTag("Player"))
+         _bar.SetMaxHealth(_maxHealth);
    }
 
    private bool _isDead;
@@ -44,11 +37,21 @@ public class Health : MonoBehaviour
       if (_isDead) return;
 
       if (_currentHealth - Damage <= 0)
+      {
          Death();
+         CameraShake.Shake(50);
+      }
       else
       {
          _currentHealth -= Damage;
          //PlayParticlesAndAudio(_source, _damageSound, _damageParticles);
+         CameraShake.Shake(10);
+      }
+
+      if (gameObject.CompareTag("Player"))
+      {
+         DamageVignette.Pulse(_hitPulse);
+         _bar.SetHealth(_currentHealth);
       }
    }
 
@@ -64,7 +67,7 @@ public class Health : MonoBehaviour
    private void Update()
    {
       //if (_isDead && !_source.isPlaying && !_deathParticles.IsAlive(true))
-      //Destroy(gameObject);
+      //Destroy(gameObject);  
    }
 
    private void PlayParticlesAndAudio(AudioSource source, AudioClip audioClip, ParticleSystem particles)
